@@ -3,13 +3,9 @@ import random
 import time
 import os
 import json
+from commands.py import commands
 
-
-with open('config.json') as f:
-    config = json.load(f)
-prefix = config['prefix']
-token = config['token']
-
+comm = commands()
 
 chase = 302915543747395585
 deven = 689939738911965198
@@ -18,6 +14,15 @@ tchannels = []
 messages = []
 Greet = ["Hello","Hey","Hi","Howdy","Yo","WHAZZUP","G'DAY"]
 greet = ["hello","hey","hi","howdy","yo","whazzup","g'day"]
+
+with open('config.json') as f:
+    config = json.load(f)
+prefix = config['prefix']
+token = config['token']
+
+with open('commands.py') as i:
+    commands = load(i)
+
 
         
 class MyClient(discord.Client):
@@ -54,9 +59,6 @@ class MyClient(discord.Client):
                 #create text channel for only those in voice channel
             pass
 
-        async def command():
-            #file(commands.py)
-            pass
 
 
 
@@ -91,7 +93,12 @@ class MyClient(discord.Client):
                 await message.channel.send("**BEEPBOOPBOT ACTIVATED** Welcome {0.author.name}".format(message))
                 await newchannel(message)
             elif message.content.startswith("$"):
-                command()
+                #command()
+
+
+
+
+
 
             #GREETINGS (HI hello sup)
             for i in greet:
@@ -115,3 +122,6 @@ client.run(token)
 
 
 #regex
+
+
+
