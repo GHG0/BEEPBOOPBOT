@@ -50,6 +50,7 @@ class MyClient(discord.Client):
 
         async def command():
             #file(commands.py)
+            pass
 
 
 
