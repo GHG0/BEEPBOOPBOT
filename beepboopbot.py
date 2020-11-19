@@ -2,7 +2,13 @@ import discord
 import random
 import time
 import os
+import json
 
+
+with open('config.json') as f:
+    config = json.load(f)
+prefix = config['prefix']
+token = config['token']
 
 
 chase = 302915543747395585
@@ -26,7 +32,7 @@ class MyClient(discord.Client):
             guild = message.guild
             nchannel = await guild.create_text_channel("{0.author.name}".format(message)+"'s terminal channel") 
             tchannels.append((nchannel.id, message.author.id))
-            await nchannel.send("[{0.author.name}@".format(message)+channel.name+" **~**]$ ")
+            await nchannel.send("[{0.author.name}@".format(message)+message.guild.name+" **~**]$ ")
         async def terminals(message, channel):
             #create channel for only the message.author.id
             if (message.channel.id, message.author.id) in tchannels:
@@ -90,7 +96,7 @@ class MyClient(discord.Client):
             #GREETINGS (HI hello sup)
             for i in greet:
                 if message.content.lower().startswith(i) or message.content.lower().endswith(i) or (" "+i+" ") in message.content.lower():
-                    a = await message.channel.send(Greet[random.randint(1,len(greet))])
+                    a = await message.channel.send(Greet[random.randint(0,len(greet)-1)])
                     await a.add_reaction("👋")
             
             if message.content == "clear -a":
@@ -104,7 +110,7 @@ class MyClient(discord.Client):
                 await message.channel.send("WHAT DO YOU WANT {0.author.mention}".format(message))
 
 client = MyClient()
-client.run('Nzc1MzU4MDExODk5MTE3NjE4.X6lKaw.tokXBro1hr_lXADKh2DFabdP9bs')
+client.run(token)
 
 
 
