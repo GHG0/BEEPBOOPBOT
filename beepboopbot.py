@@ -3,9 +3,8 @@ import random
 import time
 import os
 import json
-from commands.py import commands
+from commands import comm as com
 
-comm = commands()
 
 chase = 302915543747395585
 deven = 689939738911965198
@@ -20,11 +19,6 @@ with open('config.json') as f:
 prefix = config['prefix']
 token = config['token']
 
-with open('commands.py') as i:
-    commands = load(i)
-
-
-        
 class MyClient(discord.Client):
     async def on_ready(self):
         print('Logged in as')
@@ -33,37 +27,11 @@ class MyClient(discord.Client):
         print('------')
     async def on_message(self, message):
         
-        async def newchannel(message):
-            guild = message.guild
-            nchannel = await guild.create_text_channel("{0.author.name}".format(message)+"'s terminal channel") 
-            tchannels.append((nchannel.id, message.author.id))
-            await nchannel.send("[{0.author.name}@".format(message)+message.guild.name+" **~**]$ ")
-        async def terminals(message, channel):
-            #create channel for only the message.author.id
-            if (message.channel.id, message.author.id) in tchannels:
-                if (message.content == "exit" or message.content == "stop"):
-                    await channel.delete()
-            if(message.content.lower() == "f"):
-                await message.add_reaction("🇫")
-            if(message.content.lower() == "beep"):
-                await message.channel.send("boop")
-            #out of range beepboopbot
-            if len(messages) > 2:
-                if(messages[len(messages)-3].content.lower() == "beep"):
-                    if(messages[len(messages)-1].content.lower() =="bot"):
-                        await message.channel.send("YAY")
-                        for i in messages:
-                            await i.add_reaction("🎉")
+        
         async def voicechat(user):
             #if people in voicechannel
                 #create text channel for only those in voice channel
             pass
-
-
-
-
-
-
 
         #adding messages to array
         messages.append(message)
@@ -72,16 +40,13 @@ class MyClient(discord.Client):
         print(len(messages))
 
         print(messages[len(messages)-1].content.lower())
-        '''
-        for i in messages:
-            print(messages[i].content)
-        '''
+        
         # we do not want the bot to reply to itself
         if message.author.id == self.user.id:
             return
         else:
             #terminal code(checks to see if terminal)
-            await terminals(message, message.channel)
+            await com.terminals(message, message.channel)
             #My exception
             if message.author.id == deven and message.content.startswith("$"):
                 await message.channel.send("YES, GRAND MASTER HACKERMAN")
@@ -91,14 +56,11 @@ class MyClient(discord.Client):
                 await message.channel.send("Chase, I might grant you  GRANDMASTER, but not now!")
             elif message.content == "$startx":
                 await message.channel.send("**BEEPBOOPBOT ACTIVATED** Welcome {0.author.name}".format(message))
-                await newchannel(message)
+                await com.newchannel(message)
             elif message.content.startswith("$"):
                 #command()
-
-
-
-
-
+                pass
+                #for now
 
             #GREETINGS (HI hello sup)
             for i in greet:
@@ -107,9 +69,9 @@ class MyClient(discord.Client):
                     await a.add_reaction("👋")
             
             if message.content == "clear -a":
-                async for i in message.channel.history(limit=200):
+                async for i in message.channel.history(limit=10):
                     if i.author == message.author:
-                        await message.delete()
+                        await i.delete()
                         print("deleted")
 
             #someone @s beepboopbot
