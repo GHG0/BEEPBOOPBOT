@@ -10,9 +10,6 @@ chase = 302915543747395585
 deven = 689939738911965198
 ffa = 775355712271941647
 tchannels = []
-messages = []
-Greet = ["Hello","Hey","Hi","Howdy","Yo","WHAZZUP","G'DAY"]
-greet = ["hello","hey","hi","howdy","yo","whazzup","g'day"]
 
 with open('config.json') as f:
     config = json.load(f)
@@ -34,12 +31,6 @@ class MyClient(discord.Client):
             pass
 
         #adding messages to array
-        messages.append(message)
-        if len(messages)>10:
-            messages.pop(0)
-        print(len(messages))
-
-        print(messages[len(messages)-1].content.lower())
         
         # we do not want the bot to reply to itself
         if message.author.id == self.user.id:
@@ -60,19 +51,7 @@ class MyClient(discord.Client):
             elif message.content.startswith("$"):
                 #command()
                 pass
-                #for now
-
-            #GREETINGS (HI hello sup)
-            for i in greet:
-                if message.content.lower().startswith(i) or message.content.lower().endswith(i) or (" "+i+" ") in message.content.lower():
-                    a = await message.channel.send(Greet[random.randint(0,len(greet)-1)])
-                    await a.add_reaction("👋")
-            
-            if message.content == "clear -a":
-                async for i in message.channel.history(limit=10):
-                    if i.author == message.author:
-                        await i.delete()
-                        print("deleted")
+                #for now    
 
             #someone @s beepboopbot
             if message.content == '<@!775358011899117618>':
