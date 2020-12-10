@@ -40,7 +40,7 @@ class comm(object):
 			await message.channel.send("boop")
 		#out of range beepboopbot
 		messages = await message.channel.history(limit = 5).flatten()
-		if messages[2].content == "beep":
+		if messsages[2].content == "beep":
 			if(message.content.lower() =="bot"):
 				async for i in message.channel.history(limit = 10):
 					await i.add_reaction("🎉")
@@ -61,3 +61,5 @@ class comm(object):
 				a = await message.channel.send(Greet[random.randint(0,len(greet)-1)])
 				await a.add_reaction("👋")
         
+		if random.randint(0-100000) == 5:
+			await.message.channel.send("Yo {0.author.name}".format(message)+"check out this cat video! youtu.be/j5a0jTc9S10")
